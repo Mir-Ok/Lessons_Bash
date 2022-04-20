@@ -4,7 +4,7 @@ sudo apt update
 sudo apt install bash
 
 Переход к директории: cd /home/elma/bash_test/
-Переход к файлу:      cat /home/elma/bash_test/img_me.jpg 
+Переход к файлу (и его просмотр):      cat /home/elma/bash_test/img_me.jpg 
 
 Путь можно задавать: 
 - абсолютно cd /home/elma/bash_test/ --> (начало со /, из любого места попадем по этому адресу)
