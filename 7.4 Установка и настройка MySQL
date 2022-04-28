@@ -17,4 +17,27 @@
    (получим красивую табличку)
    
    
+Часть 2.
+-----------
+
+1. Создадим пользователя, который будет авторизовываться на sql-сервере,
+   команда: CREATE USER 'skillbox'@'localhost' IDENTIFIED BY '12345' (логин, хостинг, пароль)
+2. Выдадим все права: GRANT ALL PRIVILEGES ON information_schema TO 'skillbox'@'localhost';
+   Не всегда разрешает. Выход - создать свою БД
+3. Создадим свою БД: CREATE DATABASE testDB;
+4. Зайдем в нее: use testDB;  (ответит, что сменил базу)
+5. Создадим таблицу с двумя полями: 
+   CREATE TABLE data(id INT NOT NULL AUTO_INCREMENT, name TINYTEXT, PRIMARY KEY());
+6. Вставим 4 строки: INSERT INTO data(name) VALUES ('Dmitri'); 
+7. Откроем ее: SELECT * FROM data (увидим 4 строки и 2 столбца)
+8. Предоставим полный доступ к нашей БД пользователю skillbox:
+   GRANT ALL PRIVILEGES ON information_schema TO 'skillbox'@'localhost';
+9. Выйдем из БД: quit;
+
+10. Зайдем в БД под новым пользователем: mysql -u skillbox -p12345   
+    Пустил
+11. Откроем все БД: SHOW DATABASE;   (выдал табличку) 
      
+
+Часть 3.
+------------
