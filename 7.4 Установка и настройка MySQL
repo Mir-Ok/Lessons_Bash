@@ -41,3 +41,20 @@
 
 Часть 3.
 ------------
+Попробуем из скрипта php подключиться к нашей БД
+
+1. Откроем скрипт: mcedit /var/www/skillbox.page-net.ru/www/index.php
+2. Заменим содержимое на:
+
+<?
+   $pdo = new PDO('mysql:host=localhost','skillbox','12345'):
+   $q = "SHOW DATABASES";
+   $result = $pdo->query($q), PDO::FETCH_ASSOC)->fetchAll();
+   
+   echo '<pre>';
+   print_r($result);
+
+3. Обновляем страницу в браузере и видим там список таблиц БД, работает
+
+На данный момент у нас три сервера: основной, на нем Apache, внутри него MySql 
+   (тоже сервер, раз отвечает на запросы)
