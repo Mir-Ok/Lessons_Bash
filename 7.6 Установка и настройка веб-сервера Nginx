@@ -10,4 +10,47 @@
 4. Установим расширения для интерпретации php: apt-get install php-fpm
 
 Аналогично серверу Apache нам нужно перейти в корень и создать файл конфигурации.
-02-46
+Находится он немного в другом месте: /etc/nginx/sites-available/ 
+
+5. Перейдем в него: cd /etc/nginx/sites-available/ --> ll --> файл default
+6. Создадим копию: cp default skillbox.net-page.ru
+7. Откроем на редактирование: mcedit skillbox.net-page.ru
+   
+   В файле есть раздел Server, который слушает 80 порт.    
+   
+     Удаляем строку: listen [::]:80 default_server
+     Изменяем строку: listen 80 default_server на listen 80
+     Изменяем: server_name _ на server_name skillbox.net-page.ru   
+     Изменяем: root /var/www/html;  на root /var/www/skillbox.net-page.ru/www;
+     Добавляем к index (там список файлов) index.php
+     Допишем: error_log /var/log/nginx/skillbox.net-page.ru-error.log warn; (warning - уровень логирования)
+                access_log /var/log/nginx/skillbox.net-page.ru-access.log combined;
+
+     Изменим корневую директорию: location ~ \.php$ / (проверяет наличие файла из списка index в строке браузер, нет - 404)
+     Внутри раздела раскомментим код между {} и саму строку.
+     - уточнить версию сокета .../php7.2-fpm.sock; и всять комментр
+     - закомментим fastcgi или вообще удалим все, кроме сокета и сниппетов
+     
+     При необходимости если задействован Apache раскомментить защиту от вывода всех файлов
+     # location ~ /\.ht {...} 
+     
+     Сохраним файл конфигурации.
+8. Поставим ссылку на этот файл в ../sites-enabled/   
+    Перейдем в  cd ../sites-enabled/, просмотрим ll
+    Увидим ссылку по дефолту удалим ее: rm default
+    Установим: ln -s ../sites-available/skillbox.net-page.ru ./
+    Откроем папку и посмотрим, все ли на месте: ll (все верно, название по умолчанию поменялось)
+9. Проверим, нет ли ошибок: nginx -t (тест)    
+10. Перезапустим: service php7.2-fpm restart
+11. Перезапустим: service nginx restart    
+     
+Сначала запустится в барузере как текст, потому что не сработает интерпретатор  php без <?php ?> 
+мы делали короткую версия для апача
+ 
+ 
+Файл конфигурации php: cd etc/php/7.2/ --> ll --> php.ini
+Исправим short_open_tags --> ON
+Перезапустим см. 10 и 11. Коротная запись доступна
+ 
+Апач лучше удалить, при перезапуске он запустится и будет конфликт двух веб-серверов. 
+     
